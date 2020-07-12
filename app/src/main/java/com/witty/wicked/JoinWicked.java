@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,16 +20,17 @@ class JoinWicked extends AppCompatActivity {
     private View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(this,WickedActivity.class);
+            Intent i = new Intent(getApplicationContext(),WickedActivity.class);
             startActivity(i);
         }
     };
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.join_wicked);
         initResources();
+        Log.d("jaya","onCreate");
     }
 
     private void initResources() {
@@ -39,6 +41,16 @@ class JoinWicked extends AppCompatActivity {
         mName = findViewById(R.id.name);
         mName.addTextChangedListener(new TextWatcher() {
             @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
             public void afterTextChanged(Editable s) {
                 if(mName.getText().toString().length() != 0 && mTextCode.getText().toString().length() != 0) {
                     mJoinButton.setEnabled(true);
@@ -48,6 +60,16 @@ class JoinWicked extends AppCompatActivity {
             }
         });
         mTextCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 if(mTextCode.getText().toString().length() != 0 && mName.getText().toString().length() != 0) {

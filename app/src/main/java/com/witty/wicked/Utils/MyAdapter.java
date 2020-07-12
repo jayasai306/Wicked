@@ -2,6 +2,7 @@ package com.witty.wicked.Utils;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import com.witty.wicked.R;
 import com.witty.wicked.WickedActivity;
 
-public class MyAdapter extends RecyclerView.Adapter {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private final WickedActivity wickedActivity;
     private String[] mDataset;
 
@@ -49,8 +50,9 @@ public class MyAdapter extends RecyclerView.Adapter {
         return new MyViewHolder(itemView);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        Log.d("jaya",mDataset[position]);
         holder.answerText.setText(mDataset[position]);
         holder.mPosition = position;
     }

@@ -3,6 +3,7 @@ package com.witty.wicked;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,10 +15,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.button_start_game) {
-                Intent i = new Intent(this, StartWicked.class);
+                Intent i = new Intent(getApplicationContext(), StartWicked.class);
                 startActivity(i);
             }else if (v.getId() == R.id.button_join_game) {
-                Intent i = new Intent(this, JoinWicked.class);
+                Log.d("jaya","onclick");
+                Intent i = new Intent(getApplicationContext(), JoinWicked.class);
                 startActivity(i);
             }
         }

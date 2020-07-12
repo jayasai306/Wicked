@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,35 +9,62 @@
     <TextView
         android:id="@+id/question"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="311dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="252dp" />
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <Button
         android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="311dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="75dp"
         android:text="Button"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="608dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answer" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/answers_list_layout"
         android:layout_width="395dp"
-        android:layout_height="147dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="97dp" />
+        android:layout_height="345dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39999998" />
 
 
 </android.support.constraint.ConstraintLayout>
