@@ -1,6 +1,8 @@
 package com.witty.wicked;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,25 +27,33 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject nameJson = new JSONObject();
                 try {
                     nameJson.put("CreateTable","CreateTable");
-                    nameJson.put("name",mName.toString());
+                    nameJson.put("name",mName.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 WickedService.sendToServer(nameJson.toString());
-                Utils.setmStartGame(true);
-                Intent i = new Intent(getApplicationContext(), JoinWicked.class);
-                i.putExtra("name",mName.toString());
-                startActivity(i);
             }else if (v.getId() == R.id.button_join_game) {
                 Log.d("jaya","onclick");
                 Utils.setmJoinGame(true);
                 Intent i = new Intent(getApplicationContext(), JoinWicked.class);
-                i.putExtra("name",mName.toString());
+                i.putExtra("name",mName.getText().toString());
                 startActivity(i);
             }
         }
     };
 
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    Utils.setmStartGame(true);
+                    Intent i = new Intent(getApplicationContext(), JoinWicked.class);
+                    i.putExtra("name",mName.getText().toString());
+                    startActivity(i);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         mStartGameButton = findViewById(R.id.button_start_game);
         mJoinGameButton = findViewById(R.id.button_join_game);
         mName = findViewById(R.id.name);
+        Utils.setmMainHandler(mHandler);
     }
 
     @Override

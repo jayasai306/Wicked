@@ -1,6 +1,9 @@
 package com.witty.wicked;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,10 +28,11 @@ public class WickedActivity extends AppCompatActivity {
     private TextView mQuestion = null;
     private EditText mAnswer = null;
     private Button mSubmitButton = null;
-    private ArrayList<String> mQuestionList = new ArrayList<String>();
-    private ArrayList<String> mAnswerList = new ArrayList<String>();
+    private ArrayList<String> mQuestionList = null;
+    private ArrayList<String> mAnswerList = null;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mWaitAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private static final String SERVER = "ws://10.0.2.2:1337/";
     private int mIndex = -1;
@@ -38,37 +42,28 @@ public class WickedActivity extends AppCompatActivity {
         public void onClick(View v) {
             JSONObject startJson = new JSONObject();
             try {
-                startJson.put("SendAnswer",mAnswer.toString());
+                startJson.put("SendAnswer",mAnswer.getText().toString());
                 startJson.put("name", Utils.getmName());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             WickedService.sendToServer(startJson.toString());
-            updateUiAndSelectWickedAnswer();
+            //updateUiAndSelectWickedAnswer();
         }
     };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wicked_main);
-        getQuestions();
+        Utils.setmWickedHandler(mHandler);
         initResources();
         updateNextQuestion();
     }
 
-    private void getQuestions() {
-        JSONObject startJson = new JSONObject();
-        try {
-            startJson.put("GetQuestions","GetQuestions");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        WickedService.sendToServer(startJson.toString());
-    }
 
     private void initResources() {
+        mQuestionList = Utils.getQuestionList();
         mQuestion = findViewById(R.id.question);
         mAnswer = findViewById(R.id.answer);
         mSubmitButton = findViewById(R.id.submit_button);
@@ -104,7 +99,9 @@ public class WickedActivity extends AppCompatActivity {
         //send text and position data to server.
         //check answers status and after everyone selected answer update the next question.
         recyclerView.setVisibility(View.INVISIBLE);
-
+        mWaitAdapter = new WaitAdapter(Utils.getNames(),this);
+        recyclerView.setAdapter(mWaitAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void updateNextQuestion() {
@@ -112,18 +109,16 @@ public class WickedActivity extends AppCompatActivity {
         mQuestion.setText(mQuestionList.get(mIndex));
     }
 
-    public void updateQuestions(String[] questions) {
+    /*public void updateQuestions(String[] questions) {
         mQuestionList.clear();
         for (int i=0;i<questions.length;i++) {
             mQuestionList.add(questions[i]);
         }
-    }
+    }*/
 
-    public void updateAnswers(String[] answers) {
+    public void updateAnswers(ArrayList arrayList) {
         mAnswerList.clear();
-        for (int i=0;i<answers.length;i++) {
-            mAnswerList.add(answers[i]);
-        }
+        mAnswerList = arrayList;
         updateUiAndSelectWickedAnswer();
     }
 
@@ -131,4 +126,14 @@ public class WickedActivity extends AppCompatActivity {
         updateNextQuestion();
         displayList(false);
     }
+
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    updateAnswers(Utils.getAnswerList());
+            }
+        }
+    };
 }
